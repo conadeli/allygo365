@@ -78,23 +78,32 @@ function App() {
     }
   };
 
-  const handleAsInquirySubmit = async () => {
-    if (!phoneNumber.trim()) {
-      alert('연락처를 입력해주세요.');
-      return;
-    }
+ const handleAsInquirySubmit = async () => {
+  if (!phoneNumber.trim()) {
+    alert('연락처를 입력해주세요.');
+    return;
+  }
 
-    // 전화번호 형식 검증
-    const phoneRegex = /^01[0-9]-?[0-9]{4}-?[0-9]{4}$/;
-    if (!phoneRegex.test(phoneNumber.replace(/-/g, ''))) {
-      alert('올바른 전화번호 형식을 입력해주세요. (예: 010-1234-5678)');
-      return;
-    }
+  const phoneRegex = /^01[0-9]-?[0-9]{4}-?[0-9]{4}$/;
+  if (!phoneRegex.test(phoneNumber.replace(/-/g, ''))) {
+    alert('올바른 전화번호 형식을 입력해주세요. (예: 010-1234-5678)');
+    return;
+  }
 
-    try {
-      // 실제 운영 환경에서는 Google Apps Script 웹앱 URL을 사용
-      // 현재는 데모 환경이므로 로컬에서만 처리
-      
+  try {
+    const response = await fetch(import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        phoneNumber: phoneNumber
+      })
+    });
+
+    const result = await response.json();
+    
+    if (result.success) {
       // 로컬 상태 업데이트
       const newInquiry = {
         id: Date.now(),
@@ -108,11 +117,15 @@ function App() {
       
       alert('A/S 문의가 접수되었습니다. 비밀번호를 문자로 발송해드리겠습니다.');
       closeAsInquiryModal();
-    } catch (error) {
-      console.error('Error submitting inquiry:', error);
-      alert('문의 접수 중 오류가 발생했습니다. 다시 시도해주세요.');
+    } else {
+      throw new Error('서버 응답 오류');
     }
-  };
+  } catch (error) {
+    console.error('Error submitting inquiry:', error);
+    alert('문의 접수 중 오류가 발생했습니다. 다시 시도해주세요.');
+  }
+};
+
 
   const handlePhoneCall = () => {
     window.location.href = 'tel:07080641665';
