@@ -317,7 +317,7 @@ function App() {
             </div>
             <div>
               <img 
-                src="/image copy copy.png" 
+                src="public/image copy copy.png" 
                 alt="체온과 건강의 관계" 
                 className="rounded-2xl shadow-xl w-full"
                 onContextMenu={handleContextMenu}
@@ -389,7 +389,7 @@ function App() {
             </div>
             <div>
               <img 
-                src="/image copy.png" 
+                src="public/image copy.png" 
                 alt="고주파 기술 설명" 
                 className="rounded-2xl shadow-xl w-full"
                 onContextMenu={handleContextMenu}
@@ -485,14 +485,14 @@ function App() {
           {/* User Review Images Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { src: '/1.png', alt: '사용자 후기 1', title: '실제 사용자 A' },
-              { src: '/2.png', alt: '사용자 후기 2', title: '실제 사용자 B' },
-              { src: '/3.png', alt: '사용자 후기 3', title: '실제 사용자 C' },
-              { src: '/4.png', alt: '사용자 후기 4', title: '실제 사용자 D' },
-              { src: '/5.png', alt: '사용자 후기 5', title: '실제 사용자 E' },
-              { src: '/사용자 후기 6.png', alt: '사용자 후기 6', title: '실제 사용자 F' },
-              { src: '/사용자 후기 7.png', alt: '사용자 후기 7', title: '실제 사용자 G' },
-              { src: '/사용자 후기 8.png', alt: '사용자 후기 8', title: '실제 사용자 H' }
+              { src: 'public/1.png', alt: '사용자 후기 1', title: '실제 사용자 A' },
+              { src: 'public/2.png', alt: '사용자 후기 2', title: '실제 사용자 B' },
+              { src: 'public/3.png', alt: '사용자 후기 3', title: '실제 사용자 C' },
+              { src: 'public/4.png', alt: '사용자 후기 4', title: '실제 사용자 D' },
+              { src: 'public/5.png', alt: '사용자 후기 5', title: '실제 사용자 E' },
+              { src: 'public/사용자 후기 6.png', alt: '사용자 후기 6', title: '실제 사용자 F' },
+              { src: 'public/사용자 후기 7.png', alt: '사용자 후기 7', title: '실제 사용자 G' },
+              { src: 'public/사용자 후기 8.png', alt: '사용자 후기 8', title: '실제 사용자 H' }
             ].map((image, index) => (
               <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow">
                 <div className="relative">
@@ -709,7 +709,7 @@ function App() {
             <div className="grid md:grid-cols-3 gap-6">
               <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                 <img 
-                  src="/올리고공장2.png" 
+                  src="public/올리고공장2.png" 
                   alt="올리고365 제조 과정" 
                   className="w-full h-48 object-cover"
                   onContextMenu={handleContextMenu}
@@ -723,7 +723,7 @@ function App() {
               </div>
               <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                 <img 
-                  src="/올리고공장4.png" 
+                  src="public/올리고공장4.png" 
                   alt="올리고365 제조 시설" 
                   className="w-full h-48 object-cover"
                   onContextMenu={handleContextMenu}
@@ -737,7 +737,7 @@ function App() {
               </div>
               <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                 <img 
-                  src="/올리고공장8.png" 
+                  src="public/올리고공장8.png" 
                   alt="올리고365 기술 검증" 
                   className="w-full h-48 object-cover"
                   onContextMenu={handleContextMenu}
