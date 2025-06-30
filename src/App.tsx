@@ -317,7 +317,7 @@ function App() {
             </div>
             <div>
               <img 
-                src="public/image copy copy.png" 
+                src="public/heal.png" 
                 alt="체온과 건강의 관계" 
                 className="rounded-2xl shadow-xl w-full"
                 onContextMenu={handleContextMenu}
