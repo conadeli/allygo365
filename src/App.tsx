@@ -78,12 +78,13 @@ function App() {
     }
   };
 
- const handleAsInquirySubmit = async () => {
+const handleAsInquirySubmit = async () => {
   if (!phoneNumber.trim()) {
     alert('연락처를 입력해주세요.');
     return;
   }
 
+  // 전화번호 형식 검증
   const phoneRegex = /^01[0-9]-?[0-9]{4}-?[0-9]{4}$/;
   if (!phoneRegex.test(phoneNumber.replace(/-/g, ''))) {
     alert('올바른 전화번호 형식을 입력해주세요. (예: 010-1234-5678)');
@@ -125,6 +126,7 @@ function App() {
     alert('문의 접수 중 오류가 발생했습니다. 다시 시도해주세요.');
   }
 };
+
 
 
   const handlePhoneCall = () => {
