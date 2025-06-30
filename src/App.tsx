@@ -485,14 +485,14 @@ function App() {
           {/* User Review Images Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { src: 'public/1.png', alt: '사용자 후기 1', title: '실제 사용자 A' },
-              { src: 'public/2.png', alt: '사용자 후기 2', title: '실제 사용자 B' },
-              { src: 'public/3.png', alt: '사용자 후기 3', title: '실제 사용자 C' },
-              { src: 'public/4.png', alt: '사용자 후기 4', title: '실제 사용자 D' },
-              { src: 'public/5.png', alt: '사용자 후기 5', title: '실제 사용자 E' },
-              { src: 'public/사용자 후기 6.png', alt: '사용자 후기 6', title: '실제 사용자 F' },
-              { src: 'public/사용자 후기 7.png', alt: '사용자 후기 7', title: '실제 사용자 G' },
-              { src: 'public/사용자 후기 8.png', alt: '사용자 후기 8', title: '실제 사용자 H' }
+              { src: '/1.png', alt: '사용자 후기 1', title: '실제 사용자 A' },
+              { src: '/2.png', alt: '사용자 후기 2', title: '실제 사용자 B' },
+              { src: '/3.png', alt: '사용자 후기 3', title: '실제 사용자 C' },
+              { src: '/4.png', alt: '사용자 후기 4', title: '실제 사용자 D' },
+              { src: '/5.png', alt: '사용자 후기 5', title: '실제 사용자 E' },
+              { src: '/사용자 후기 6.png', alt: '사용자 후기 6', title: '실제 사용자 F' },
+              { src: '/사용자 후기 7.png', alt: '사용자 후기 7', title: '실제 사용자 G' },
+              { src: '/사용자 후기 8.png', alt: '사용자 후기 8', title: '실제 사용자 H' }
             ].map((image, index) => (
               <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow">
                 <div className="relative">
