@@ -389,7 +389,7 @@ function App() {
             </div>
             <div>
               <img 
-                src="public/image copy.png" 
+                src="/image copy.png" 
                 alt="고주파 기술 설명" 
                 className="rounded-2xl shadow-xl w-full"
                 onContextMenu={handleContextMenu}
