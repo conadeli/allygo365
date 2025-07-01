@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown, X, Heart, Thermometer, Zap, Shield, Star, Users, Settings, Lock, Phone, MessageSquare, Calendar, User, Droplets, Sparkles, Activity } from 'lucide-react';
 
 function App() {
@@ -9,6 +9,12 @@ function App() {
   const [asPassword, setAsPassword] = useState('');
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
+
+  // 🔒 비밀번호 실패 관리 상태
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
+  const [lockEndTime, setLockEndTime] = useState<number | null>(null);
+  const [remainingTime, setRemainingTime] = useState<string>('');
 
   // A/S 문의 게시판 데이터 (실제로는 서버에서 관리)
   const [asInquiries, setAsInquiries] = useState([
@@ -35,7 +41,7 @@ function App() {
     }
   ]);
 
-  // 구매자 휴대폰번호 목록 (실제 운영시에는 서버에서 관리)
+  // ⭐ A/S 문의 비밀번호 목록 - 여기서 비밀번호를 추가/삭제하세요!
   const validPasswords = [
     '01012345678',
     '01087654321',
@@ -43,6 +49,63 @@ function App() {
     '01099998888',
     // 여기에 구매자들의 휴대폰번호를 추가하시면 됩니다
   ];
+
+  // 🔒 로컬 스토리지에서 잠금 상태 복원
+  useEffect(() => {
+    const savedFailedAttempts = localStorage.getItem('asFailedAttempts');
+    const savedLockEndTime = localStorage.getItem('asLockEndTime');
+    
+    if (savedFailedAttempts) {
+      setFailedAttempts(parseInt(savedFailedAttempts));
+    }
+    
+    if (savedLockEndTime) {
+      const lockTime = parseInt(savedLockEndTime);
+      const now = Date.now();
+      
+      if (now < lockTime) {
+        setIsLocked(true);
+        setLockEndTime(lockTime);
+      } else {
+        // 잠금 시간이 지났으면 초기화
+        localStorage.removeItem('asFailedAttempts');
+        localStorage.removeItem('asLockEndTime');
+        setFailedAttempts(0);
+      }
+    }
+  }, []);
+
+  // 🔒 남은 시간 계산 타이머
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    
+    if (isLocked && lockEndTime) {
+      timer = setInterval(() => {
+        const now = Date.now();
+        const remaining = lockEndTime - now;
+        
+        if (remaining <= 0) {
+          // 잠금 해제
+          setIsLocked(false);
+          setLockEndTime(null);
+          setFailedAttempts(0);
+          localStorage.removeItem('asFailedAttempts');
+          localStorage.removeItem('asLockEndTime');
+          setRemainingTime('');
+        } else {
+          // 남은 시간 표시
+          const hours = Math.floor(remaining / (1000 * 60 * 60));
+          const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+          setRemainingTime(`${hours}시간 ${minutes}분 ${seconds}초`);
+        }
+      }, 1000);
+    }
+    
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [isLocked, lockEndTime]);
 
   const openPurchaseModal = () => setIsPurchaseModalOpen(true);
   const closePurchaseModal = () => setIsPurchaseModalOpen(false);
@@ -64,6 +127,8 @@ function App() {
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isLocked) return; // 잠금 상태에서는 입력 불가
+    
     const password = e.target.value;
     setAsPassword(password);
     // 입력된 비밀번호가 유효한 휴대폰번호 목록에 있는지 확인
@@ -71,10 +136,38 @@ function App() {
   };
 
   const handleAsInquiry = () => {
+    if (isLocked) {
+      alert(`비밀번호를 5회 잘못 입력하여 잠금되었습니다.\n잠금 해제까지 남은 시간: ${remainingTime}`);
+      return;
+    }
+
     if (isPasswordCorrect) {
+      // 성공 시 실패 횟수 초기화
+      setFailedAttempts(0);
+      localStorage.removeItem('asFailedAttempts');
+      localStorage.removeItem('asLockEndTime');
+      
       // 카카오톡 오픈채팅방으로 이동
       window.open('https://open.kakao.com/o/sirEIqCh', '_blank');
       closeAsModal();
+    } else {
+      // 🔒 비밀번호 실패 처리
+      const newFailedAttempts = failedAttempts + 1;
+      setFailedAttempts(newFailedAttempts);
+      localStorage.setItem('asFailedAttempts', newFailedAttempts.toString());
+      
+      if (newFailedAttempts >= 5) {
+        // 5회 실패 시 24시간 잠금
+        const lockTime = Date.now() + (24 * 60 * 60 * 1000); // 24시간 후
+        setIsLocked(true);
+        setLockEndTime(lockTime);
+        localStorage.setItem('asLockEndTime', lockTime.toString());
+        
+        alert('비밀번호를 5회 잘못 입력하여 24시간 동안 잠금됩니다.');
+        closeAsModal();
+      } else {
+        alert(`비밀번호가 틀렸습니다. (${newFailedAttempts}/5회 실패)\n${5 - newFailedAttempts}회 더 실패하면 24시간 잠금됩니다.`);
+      }
     }
   };
 
@@ -709,10 +802,39 @@ function App() {
               <div className="text-center">
                 <button 
                   onClick={openAsModal}
-                  className="bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all transform hover:scale-105 font-medium text-lg"
+                  className={`px-8 py-4 rounded-full font-medium text-lg transition-all transform hover:scale-105 ${
+                    isLocked 
+                      ? 'bg-gray-400 text-white cursor-not-allowed' 
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  }`}
+                  disabled={isLocked}
                 >
-                  A/S 문의하기
+                  {isLocked ? `잠금됨 (${remainingTime})` : 'A/S 문의하기'}
                 </button>
+                
+                {/* 🔒 잠금 상태 안내 */}
+                {isLocked && (
+                  <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-red-700 font-medium">
+                      🔒 비밀번호를 5회 잘못 입력하여 잠금되었습니다.
+                    </p>
+                    <p className="text-red-600 text-sm mt-1">
+                      잠금 해제까지 남은 시간: {remainingTime}
+                    </p>
+                  </div>
+                )}
+                
+                {/* 실패 횟수 표시 (잠금되지 않은 상태에서만) */}
+                {!isLocked && failedAttempts > 0 && (
+                  <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="text-yellow-700 text-sm">
+                      ⚠️ 비밀번호 실패 횟수: {failedAttempts}/5회
+                    </p>
+                    <p className="text-yellow-600 text-xs mt-1">
+                      {5 - failedAttempts}회 더 실패하면 24시간 잠금됩니다.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -912,44 +1034,79 @@ function App() {
             </button>
             
             <div className="text-center">
-              <div className="bg-blue-100 p-4 rounded-full w-16 h-16 mx-auto mb-6 flex items-center justify-center">
-                <Lock className="w-8 h-8 text-blue-600" />
+              <div className={`p-4 rounded-full w-16 h-16 mx-auto mb-6 flex items-center justify-center ${
+                isLocked ? 'bg-red-100' : 'bg-blue-100'
+              }`}>
+                <Lock className={`w-8 h-8 ${isLocked ? 'text-red-600' : 'text-blue-600'}`} />
               </div>
               
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
                 A/S 문의 인증
               </h3>
               
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                비밀번호를 입력해주세요
-              </p>
-              
-              <div className="mb-6">
-                <input
-                  type="password"
-                  value={asPassword}
-                  onChange={handlePasswordChange}
-                  placeholder="비밀번호 입력"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-              
-              <button 
-                className={`w-full py-4 rounded-full font-bold text-lg transition-colors ${
-                  isPasswordCorrect 
-                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                }`}
-                onClick={handleAsInquiry}
-                disabled={!isPasswordCorrect}
-              >
-                A/S 문의하기
-              </button>
-              
-              {asPassword && !isPasswordCorrect && (
-                <p className="text-red-500 text-sm mt-3">
-                  올바르지 않은 비밀번호입니다.
-                </p>
+              {isLocked ? (
+                <div className="text-center">
+                  <p className="text-red-600 mb-4 leading-relaxed">
+                    🔒 비밀번호를 5회 잘못 입력하여<br/>
+                    24시간 동안 잠금되었습니다.
+                  </p>
+                  <p className="text-red-500 font-medium mb-6">
+                    잠금 해제까지: {remainingTime}
+                  </p>
+                  <button 
+                    onClick={closeAsModal}
+                    className="w-full bg-gray-500 text-white py-4 rounded-full font-bold text-lg"
+                  >
+                    확인
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    비밀번호를 입력해주세요
+                  </p>
+                  
+                  {/* 실패 횟수 표시 */}
+                  {failedAttempts > 0 && (
+                    <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                      <p className="text-yellow-700 text-sm">
+                        ⚠️ 실패 횟수: {failedAttempts}/5회
+                      </p>
+                      <p className="text-yellow-600 text-xs">
+                        {5 - failedAttempts}회 더 실패하면 24시간 잠금됩니다.
+                      </p>
+                    </div>
+                  )}
+                  
+                  <div className="mb-6">
+                    <input
+                      type="password"
+                      value={asPassword}
+                      onChange={handlePasswordChange}
+                      placeholder="비밀번호 입력"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      disabled={isLocked}
+                    />
+                  </div>
+                  
+                  <button 
+                    className={`w-full py-4 rounded-full font-bold text-lg transition-colors ${
+                      isPasswordCorrect 
+                        ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
+                    onClick={handleAsInquiry}
+                    disabled={!isPasswordCorrect || isLocked}
+                  >
+                    A/S 문의하기
+                  </button>
+                  
+                  {asPassword && !isPasswordCorrect && (
+                    <p className="text-red-500 text-sm mt-3">
+                      올바르지 않은 비밀번호입니다.
+                    </p>
+                  )}
+                </>
               )}
             </div>
           </div>
