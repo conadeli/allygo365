@@ -126,8 +126,6 @@ const handleAsInquirySubmit = async () => {
     alert('문의 접수 중 오류가 발생했습니다. 다시 시도해주세요.');
   }
 };
-
-    const result = await response.json();
     
     if (result.success) {
       // 로컬 상태 업데이트
