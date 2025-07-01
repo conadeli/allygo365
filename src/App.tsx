@@ -164,7 +164,7 @@ function App() {
               onClick={openPurchaseModal}
               className="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition-colors font-medium"
             >
-              제품 구매하기
+              구매 문의하기
             </button>
           </div>
         </div>
@@ -189,7 +189,7 @@ function App() {
                   onClick={openPurchaseModal}
                   className="bg-red-500 text-white px-8 py-4 rounded-full hover:bg-red-600 transition-all transform hover:scale-105 font-medium text-lg"
                 >
-                  제품 구매하기
+                  구매 문의하기
                 </button>
                 <button 
                   onClick={openPaymentModal}
@@ -450,7 +450,7 @@ function App() {
                   <h5 className="text-lg font-semibold text-gray-900 mb-3">적용 범위</h5>
                   <p className="text-gray-700 leading-relaxed">
                     저주파나 중주파에 비해 적용범위가 넓고 광범위하여 
-                    <strong>근육통, 비만, 셀룰라이트, 피부 회복 및 통증완화와 면역력 회복을위한 건겅활성화</strong> 등에 쓰입니다.
+                    <strong>근육통, 비만, 셀룰라이트, 피부 회복 및 통증완화와 면역력 회복을위한 건강활성화</strong> 등에 쓰입니다.
                   </p>
                 </div>
               </div>
@@ -778,7 +778,7 @@ function App() {
             onClick={openPurchaseModal}
             className="bg-white text-red-500 px-12 py-4 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 font-bold text-xl"
           >
-            제품 구매하기
+            구매 문의하기
           </button>
         </div>
       </section>
