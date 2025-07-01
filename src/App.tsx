@@ -92,8 +92,7 @@ const handleAsInquirySubmit = async () => {
 
   try {
     // 🔥 Formspree로 이메일 전송
-    const response = await fetch('https://formspree.io/f/myzjobbw
-', {
+    const response = await fetch('https://formspree.io/f/myzjobbw', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
