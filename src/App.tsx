@@ -393,8 +393,8 @@ function App() {
               </h3>
               <p className="text-gray-600 leading-relaxed mb-6">
                 저주파나 중주파는 따갑거나 찌릿하지만 고주파는 물리적으로 자극을 주지 않고, 
-                심부열(심부체온)으로 개어하기 때문에 인체에 해를 주지 않습니다. 저주파는 피하지방까지, 
-                고주파는 뼈까지 전기자극이 도달 할 수 있어 해 인체에 가해지면서 분자들이 새롭게 움직이고, 
+                심부열(심부체온)으로 케어하기 때문에 인체에 해를 주지 않습니다. 저주파는 피하지방까지, 
+                고주파는 {/*뼈까지 전기자극이 도달 할 수 있어*/} 해 인체에 가해지면서 분자들이 새롭게 움직이고, 
                 물에서 화전하여 충돌에서 심부체온을 올려줍니다.
               </p>
             </div>
@@ -421,7 +421,7 @@ function App() {
                 <h4 className="text-xl font-semibold text-gray-900 mb-4">고주파 전류의 정의</h4>
                 <p className="text-gray-700 leading-relaxed">
                   <strong>100,000Hz 이상의 교류 전류</strong>를 고주파 전류(high frequency current HFC)라고 합니다. 
-                  고주파수의 전기 에너지가 가해지면, 전류의 방향이 바뀔 때마다 구성하는 분자들이 진동하면서 
+                  고주파의 전기 에너지가 가해지면, 전류의 방향이 바뀔 때마다 구성하는 분자들이 진동하면서 
                   서로 마찰하게 되어 <strong>회전운동, 유동운동, 충돌운동</strong>에 의해 생체 열을 발생시킵니다.
                 </p>
               </div>
@@ -437,26 +437,26 @@ function App() {
             </div>
 
             <div className="bg-red-50 p-8 rounded-xl mb-8">
-              <h4 className="text-2xl font-semibold text-gray-900 mb-6 text-center">고주파 치료 특징</h4>
+              <h4 className="text-2xl font-semibold text-gray-900 mb-6 text-center">고주파 자극의 특징</h4>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h5 className="text-lg font-semibold text-gray-900 mb-3">치료 원리</h5>
+                  <h5 className="text-lg font-semibold text-gray-900 mb-3">원리</h5>
                   <p className="text-gray-700 leading-relaxed">
-                    고주파는 저주파나 중주파와 달리 <strong>찌릿한 물리적 자극으로 치료하는 것이 아니라</strong> 
-                    심부열이라 불리는 피부 심층에 발생하는 <strong>열작용의 생화학적 작용</strong>으로 치료합니다.
+                    고주파는 저주파나 중주파와 달리 <strong>찌릿한 물리적으로 자극을 주는 것이 아니라</strong> 
+                    심부열이라 불리는 피부 심층에 발생하는 <strong>열작용의 생화학적 작용</strong>으로 효과를 발현합니다.
                   </p>
                 </div>
                 <div>
                   <h5 className="text-lg font-semibold text-gray-900 mb-3">적용 범위</h5>
                   <p className="text-gray-700 leading-relaxed">
-                    저주파나 중주파에 비해 치료범위가 넓고 광범위하여 치료뿐만 아니라 
-                    <strong>근육통, 비만, 셀룰라이트, 피부 치료</strong> 등에 쓰입니다.
+                    저주파나 중주파에 비해 적용범위가 넓고 광범위하여 
+                    <strong>근육통, 비만, 셀룰라이트, 피부 회복 및 통증완화와 면역력 회복을위한 건겅활성화</strong> 등에 쓰입니다.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* 고주파 심부열의 효과 */}
+            {/* 고주파 심부열의 기대효과 */}
             <div className="text-center mb-8">
               <h4 className="text-2xl font-bold text-gray-900 mb-8">고주파 심부열의 효과</h4>
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
