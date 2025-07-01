@@ -78,80 +78,54 @@ function App() {
     }
   };
 
-const handleAsInquirySubmit = async () => {
-  if (!phoneNumber.trim()) {
-    alert('연락처를 입력해주세요.');
-    return;
-  }
-
-  const phoneRegex = /^01[0-9]-?[0-9]{4}-?[0-9]{4}$/;
-  if (!phoneRegex.test(phoneNumber.replace(/-/g, ''))) {
-    alert('올바른 전화번호 형식을 입력해주세요. (예: 010-1234-5678)');
-    return;
-  }
-
-  try {
-    // 🔥 Formspree로 이메일 전송
-    const response = await fetch('https://formspree.io/f/myzjobbw', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        phoneNumber: phoneNumber,
-        message: 'ALLYGO365 A/S 문의 요청',
-        timestamp: new Date().toLocaleString('ko-KR')
-      })
-    });
-
-    if (response.ok) {
-      // 게시판에 표시
-      const newInquiry = {
-        id: Date.now(),
-        title: 'A/S 받고싶습니다',
-        phone: phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-****-$3'),
-        date: new Date().toISOString().split('T')[0],
-        status: '접수완료'
-      };
-
-      setAsInquiries(prev => [newInquiry, ...prev.slice(0, 4)]);
-      
-      alert('A/S 문의가 접수되었습니다. 비밀번호를 문자로 발송해드리겠습니다.');
-      closeAsInquiryModal();
-    } else {
-      throw new Error('전송 실패');
+  const handleAsInquirySubmit = async () => {
+    if (!phoneNumber.trim()) {
+      alert('연락처를 입력해주세요.');
+      return;
     }
-  } catch (error) {
-    console.error('Error:', error);
-    alert('문의 접수 중 오류가 발생했습니다. 다시 시도해주세요.');
-  }
-};
 
-    
-    if (result.success) {
-      // 로컬 상태 업데이트
-      const newInquiry = {
-        id: Date.now(),
-        title: 'A/S 받고싶습니다',
-        phone: phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-****-$3'),
-        date: new Date().toISOString().split('T')[0],
-        status: '접수완료'
-      };
-
-      setAsInquiries(prev => [newInquiry, ...prev.slice(0, 4)]);
-      
-      alert('A/S 문의가 접수되었습니다. 비밀번호를 문자로 발송해드리겠습니다.');
-      closeAsInquiryModal();
-    } else {
-      throw new Error('서버 응답 오류');
+    const phoneRegex = /^01[0-9]-?[0-9]{4}-?[0-9]{4}$/;
+    if (!phoneRegex.test(phoneNumber.replace(/-/g, ''))) {
+      alert('올바른 전화번호 형식을 입력해주세요. (예: 010-1234-5678)');
+      return;
     }
-  } catch (error) {
-    console.error('Error submitting inquiry:', error);
-    alert('문의 접수 중 오류가 발생했습니다. 다시 시도해주세요.');
-  }
-};
 
+    try {
+      // Formspree로 이메일 전송
+      const response = await fetch('https://formspree.io/f/myzjobbw', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phoneNumber: phoneNumber,
+          message: 'ALLYGO365 A/S 문의 요청',
+          timestamp: new Date().toLocaleString('ko-KR')
+        })
+      });
 
+      if (response.ok) {
+        // 게시판에 표시
+        const newInquiry = {
+          id: Date.now(),
+          title: 'A/S 받고싶습니다',
+          phone: phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-****-$3'),
+          date: new Date().toISOString().split('T')[0],
+          status: '접수완료'
+        };
+
+        setAsInquiries(prev => [newInquiry, ...prev.slice(0, 4)]);
+        
+        alert('A/S 문의가 접수되었습니다. 담당자가 확인 후 연락드리겠습니다.');
+        closeAsInquiryModal();
+      } else {
+        throw new Error('전송 실패');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('문의 접수 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
 
   const handlePhoneCall = () => {
     window.location.href = 'tel:07080641665';
@@ -660,7 +634,7 @@ const handleAsInquirySubmit = async () => {
             </div>
 
             <div className="mt-8 text-center text-gray-600">
-              <p>최근 5개의 문의만 표시됩니다. 문의 접수 후 비밀번호를 문자로 발송해드립니다.</p>
+              <p>최근 5개의 문의만 표시됩니다. 문의 접수 후 담당자가 확인하여 연락드립니다.</p>
             </div>
           </div>
         </div>
