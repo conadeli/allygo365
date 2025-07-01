@@ -378,13 +378,12 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              저체온을 해결할 역시 <span className="text-red-500">심부체온</span>
+              저체온을 해결할 열쇠 <span className="text-red-500">심부체온</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-              인체 내외 100,000 Hz 이상의 고주파 진동이 전해지면 전류의 방향이 바뀔 때 마다 
-              조직을 구성하는 분자간 ... 진동 마찰열에 의해 체내 컨덕션 전달되고 최전도등, 
-              터널링, 중폭 운동에 의해 생체연수 발생시킵니다.
-            </p>
+              인체 내에 100,000 Hz 이상의 고주파 진동이 전해지면 전류의 방향이 바뀔 때 마다 
+              조직을 구성하는 분자간 + , - 진동 마찰열에 의해 체내 깊숙히 전달되고 회전운동, 뒤틀림 , 충돌 운동에 의해
+생체열을 발생시킵니다. 고주파에 의해 발생된 열을 '심부열(심부체온)' 이라 하는데 올리고365는 이러한원리로 통증을 완화해줍니다.             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
