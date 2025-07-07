@@ -579,7 +579,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              실제 사용자들의 후기
+              실제 사용자들의 모습
             </h2>
             <p className="text-xl text-gray-600">
               올리고365를 사용하고 계신 분들의 생생한 사용 모습을 확인해보세요
