@@ -1011,7 +1011,7 @@ function App() {
               <button 
                 className="w-full bg-yellow-400 text-gray-900 py-4 rounded-full font-bold text-lg hover:bg-yellow-500 transition-colors"
                 onClick={() => {
-                  alert('결제창 요청이 전송되었습니다. 상담원이 곧 연락드리겠습니다.');
+                  window.open('https://open.kakao.com/o/sirEIqCh', '_blank'); // ✅ 카카오톡 오픈채팅 주소
                   closePaymentModal();
                 }}
               >
